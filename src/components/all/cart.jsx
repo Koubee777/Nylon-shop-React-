@@ -1,4 +1,5 @@
 import { Flex, Box, Button, Container, Image } from "@chakra-ui/react";
+import { Link, NavLink } from "react-router";
 
 const Cart = ({setCartProducts, cartProducts}) => {
   
@@ -46,38 +47,30 @@ const Cart = ({setCartProducts, cartProducts}) => {
       const totalPrice = calculateTotalPrice();
     
     return ( 
-        <Container background="blue.500" p="4">
-            <Flex justify="center" p="4" rounded="md" direction="column" gap="10px"  fontSize="md" background="white" fontWeight="600">
-                <Button background="blue.500" rounded="md" p="4" color="gray.100" textAlign="right" fontSize="xl">Купить: {totalPrice} руб.</Button>
+        <Container background="blue.100" p="4">
+          <Flex w="100%" p="40px 0px" gap="20px">
+            <Flex justify="center" p="4" rounded="md" direction="column" gap="10px"  fontSize="md" background="white" fontWeight="600" maxW="500px">            
                 {cartProducts && cartProducts.map(el =>(
-                    <Flex justify="space-between" direction="row" gap="10px" align="center">
-                            <Flex 
-                                align="center"
-                                fontSize="xl"
-                                fontWeight="500"
-                                gap="15px"
-                                direction="column"
-                                justify="center" 
-                                p="4" 
-                                color="gray.900"
-                                rounded="md"
-                                borderColor="gray.100"
-                                borderWidth="3px">
-                                {el.title}
-                                <Image height="200px" rounded="md" src={el.img} alt="Dan Abramov" />
-                                </Flex>
-                            <Flex 
-                                background="gray.100" 
-                                rounded="md"
-                                fontWeight="600"
-                                direction="column" 
-                                maxH="max-content"
-                                p="4" 
-                                color="white" 
-                                gap="5px" >
-                                <Box color="red">цена со скидкой: {el.oldPrice} руб.</Box>
-                                <Box color="gray.900">цена без скидки: {el.price} руб.</Box>
-                            </Flex>
+                    <Flex justify="space-between" direction="row" gap="10px" align="center" >
+                           <NavLink to={`/catalog/${el.name}`}>
+                          <Image bgColor="blue.100" height="100px" w="100px" rounded="md" src={el.image} alt="Dan Abramov"/>
+                          <Flex
+                              rounded="md"
+                              fontWeight="600"
+                              maxH="max-content"
+                              alignItems="center"
+                              color="gray.500" 
+                              gap="5px" >
+                              <Box color="red">{el.price} ₽</Box>
+                              <Box color="gray.300" fontSize="14px" textDecoration="line-through">{el.oldPrice} ₽</Box>
+                          </Flex>
+                          <Box color="red.500" fontSize="14px">Осталось {el.left} шт</Box>
+                          <Link  
+                              color="blue.400"
+                              transition="all 0.3s ease-in-out"
+                              href="/.">{el.title}
+                            </Link>
+                          </NavLink>
                             <Flex   
                                 fontSize="xl"
                                 fontWeight="500"
@@ -102,6 +95,8 @@ const Cart = ({setCartProducts, cartProducts}) => {
                     </Flex>
                  ))}
             </Flex>
+            <Button background="blue.500" rounded="md" p="4" color="gray.100" textAlign="right" fontSize="xl">Купить в один клик: {totalPrice} руб.</Button>
+          </Flex>
             
         </Container>
      );

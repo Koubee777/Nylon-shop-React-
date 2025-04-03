@@ -9,8 +9,11 @@ import { Catalog } from './components/all/catalog';
 import ItemProducs from './components/all/productItem';
 import { useEffect, useState } from 'react';
 import AboutUs from './components/all/aboutUs';
+
+import { Testdb } from './components/all/testdb';
+
 const products = [
-  {
+  { url: 'product1',
     id: 1,
     name: 'product1',
     title: 'Шапка ушанка Nixon',
@@ -22,7 +25,7 @@ const products = [
     left: 45,
     countInCart: 0,
   },
-  {
+  { url: 'product2',
     id: 2,
     name: 'product2',
     title: 'Перчатки Nixon',
@@ -34,7 +37,7 @@ const products = [
     left: 18,
     countInCart: 0,
   },
-  {
+  { url: 'product3',
     id: 3,
     name: 'product3',
     title: 'Ботинки Nixon',
@@ -46,7 +49,7 @@ const products = [
     left: 63,
     countInCart: 0,
   },
-  {
+  { url: 'product4',
     id: 4,
     name: 'product4',
     title: 'Пуховик Nixon',
@@ -69,6 +72,7 @@ function App() {
     <Provider>
       <BrowserRouter>
       <Header />
+      {/* <Testdb productsdb={products}/> */}
         <Routes>
           <Route path="/about" element={<AboutUs />} />
           <Route path="/" element={<Main />} />

@@ -1,6 +1,7 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 
 export const Main = () => {
+    
     return ( 
         <Flex justify="center" pt="100px">
             <Box 

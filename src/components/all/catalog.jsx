@@ -1,9 +1,21 @@
 import { Box, Button, Container, Flex, Image } from "@chakra-ui/react";
 import { chakra } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router";
+import Dexie from 'dexie';
+import { getAlldbProducts } from "./testdb";
 
-export const Catalog = ({products, setCartProducts, cartProducts}) => {
-    
+export const Catalog = ({setCartProducts, cartProducts}) => {
+
+  const [products, setProducts] = useState([]);
+    useEffect (()=> {
+      const loadProducts = async () => {
+        const allProducts = await getAlldbProducts();
+        setProducts(allProducts)
+      };
+      loadProducts();
+    },[])
+
     const ProductCard = chakra("div", {
         base: {
             p: "80px",
@@ -55,8 +67,9 @@ export const Catalog = ({products, setCartProducts, cartProducts}) => {
     
     return ( 
         <Container>
-            <ProductCard>
-                {products.map(el =>(
+            <ProductCard>  
+                
+                {products && products.map(el =>(
                     <Box key={el.title}
                         align="center"
                         fontSize="xl"
@@ -70,7 +83,7 @@ export const Catalog = ({products, setCartProducts, cartProducts}) => {
                         borderColor="gray.100"
                         borderWidth="2px">
                         <NavLink to={`/catalog/${el.name}`}>
-                          <Image bgColor="blue.100" height="300px" w="300px" rounded="md" src={el.img} alt="Dan Abramov"/>
+                          <Image bgColor="blue.100" height="300px" w="300px" rounded="md" src={el.image} alt="Dan Abramov"/>
                           <Flex
                               rounded="md"
                               fontWeight="600"
@@ -94,6 +107,7 @@ export const Catalog = ({products, setCartProducts, cartProducts}) => {
                             prod.id === el.id && 
                             <Box color="red.500" fontSize="18px">В корзине {prod.countInCart} шт</Box>
                         ))}
+                       
                     </Box>))}
             </ProductCard>
         </Container>
