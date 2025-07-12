@@ -67,6 +67,7 @@ export const Testdb = ({productsdb}) => {
             price: el.price,
             oldPrice: el.oldPrice,
             category: el.category,
+            left: el.left,
             countInCart: el.countInCart,
           }; 
           await db.products.put(item);
@@ -139,6 +140,7 @@ export const Testdb = ({productsdb}) => {
   
   return (
     <Flex
+        display="none"
         direction="column"
         m="0px auto"
         w="500px"

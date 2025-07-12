@@ -72,7 +72,7 @@ function App() {
     <Provider>
       <BrowserRouter>
       <Header />
-      {/* <Testdb productsdb={products}/> */}
+      <Testdb productsdb={products}/>
         <Routes>
           <Route path="/about" element={<AboutUs />} />
           <Route path="/" element={<Main />} />

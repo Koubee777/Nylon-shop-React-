@@ -3,17 +3,24 @@ import { useLocation, useParams } from "react-router";
 import { Box, Button, Container, Flex, Image } from "@chakra-ui/react";
 import { Link, NavLink } from "react-router";
 import { getProductByUrl } from "./testdb";
+import { getAlldbProducts } from "./testdb";
+
 
 
 const ItemProducs = ({setCartProducts, cartProducts}) => {
-    // const [product, setProduct] = useState(null)
-    // const location = useLocation()
-    // useEffect(() => {
-    //     const pathParts = location.pathname.split('/');
-    //     setProduct(getEventById())
-    // }, [location.pathname]);
+  const [products, setProducts] = useState([]);
+
+    useEffect (()=> {
+      const loadProducts = async () => {
+        const allProducts = await getAlldbProducts();
+        setProducts(allProducts)
+      };
+      loadProducts();
+    },[])
+
+
     const location = useLocation()
-    const [product, setProduct] = useState();
+    const [product, setProduct] = useState([]);
     useEffect (()=> {
         const pathParts = location.pathname.split('/');
         console.log(pathParts[2])
@@ -22,11 +29,32 @@ const ItemProducs = ({setCartProducts, cartProducts}) => {
         setProduct(getProduct)
         console.log("продукт это", getProduct)
       };
-      loadProduct();
-      
+      loadProduct(); 
     },[])
 
 
+    const addToCart = (id) => {
+      setCartProducts((prevCartProducts) => {
+        // проверяем, есть ли товар с таким id в корзине
+        const existingProductIndex = prevCartProducts.findIndex((product) => product.id === id);
+        
+        if (existingProductIndex !== -1) {
+          // если товар найден, плюсуем
+          const updatedCart = [...prevCartProducts];
+          
+          updatedCart[existingProductIndex] = {
+            ...updatedCart[existingProductIndex],
+            countInCart: updatedCart[existingProductIndex].countInCart + 1,
+          };
+          return updatedCart;
+        } 
+        else {
+          // если нет, то добавляем
+          const productToAdd = products.find((product) => product.id === id);
+          return [...prevCartProducts, { ...productToAdd, countInCart: 1 }];
+        }
+      });
+    };
     return ( 
       <Container>
         <div>
@@ -66,8 +94,12 @@ const ItemProducs = ({setCartProducts, cartProducts}) => {
                         </Link>
                         <NavLink to={`/catalog/${el.name}`}>Карточка</NavLink>
                       </Flex>
-                    <Button background="blue.500" rounded="md" p="4" color="gray.100" textAlign="right" fontSize="xl" mt="4" onClick={()=> setCartProducts([...cartProducts, product])}>Добавить в корзину</Button>
-                </Box>
+                      <Button background="blue.500" rounded="md" p="4" color="gray.100" textAlign="right" fontSize="xl" mt="4" onClick={()=> addToCart(el.id)}>Добавить в корзину</Button>
+                          {cartProducts.map(prod =>(
+                            prod.id === el.id && 
+                            <Box color="red.500" fontSize="18px">В корзине {prod.countInCart} шт</Box>
+                        ))}                </Box>
+               
             </Link>
           ))}
         </div>
