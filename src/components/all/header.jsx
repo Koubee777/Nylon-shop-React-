@@ -14,7 +14,7 @@ export const Header = () => {
                 <Link href="#" color="white">ЛОГО</Link>
                 <Flex justify="center" gap="10px">
 
-                    <NavLink to={`/`}><HeaderLink>Главная</HeaderLink></NavLink>   
+                    <NavLink to={`/`}><HeaderLink>Главная страница</HeaderLink></NavLink>   
                     <NavLink to={`/catalog`}><HeaderLink>Каталог</HeaderLink></NavLink>   
                     <NavLink to={`/about`}><HeaderLink>о нас</HeaderLink></NavLink>   
                     
